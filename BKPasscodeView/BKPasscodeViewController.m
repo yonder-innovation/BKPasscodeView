@@ -33,6 +33,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) AFViewShaker                  *viewShaker;
 
 @property (nonatomic) BOOL                                  promptingTouchID;
+@property (nonatomic) BOOL                                  isAuthorizing;
 
 @end
 
@@ -279,7 +280,7 @@ typedef enum : NSUInteger {
 
 - (void)startTouchIDAuthenticationIfPossible:(void (^)(BOOL))aCompletionBlock
 {
-    if (NO == [self canAuthenticateWithTouchID]) {
+    if (NO == [self canAuthenticateWithTouchID] || self.isAuthorizing) {
         if (aCompletionBlock) {
             aCompletionBlock(NO);
         }
@@ -389,11 +390,20 @@ typedef enum : NSUInteger {
     switch (self.currentState) {
         case BKPasscodeViewControllerStateCheckPassword:
         {
+            if (self.promptingTouchID) {
+                
+                return;
+                
+            }
+            
+            self.isAuthorizing = YES;
+            
             NSAssert([self.delegate respondsToSelector:@selector(passcodeViewController:authenticatePasscode:resultHandler:)],
                      @"delegate must implement passcodeViewController:authenticatePasscode:resultHandler:");
             
             [self.delegate passcodeViewController:self authenticatePasscode:passcode resultHandler:^(BOOL succeed) {
                 
+                self.isAuthorizing = NO;                
                 NSAssert([NSThread isMainThread], @"you must invoke result handler in main thread.");
                 
                 if (succeed) {
