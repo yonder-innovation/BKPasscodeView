@@ -52,12 +52,11 @@
     [self addSubview:self.messageLabel];
     
     self.titleLabel = [[UILabel alloc] init];
+    self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Touch ID", @"BKPasscodeView", @"Touch ID 사용");
     if (@available(iOS 11.0, *)) {
         if ([BKBiometricsManager supportedBiometricType] == LABiometryTypeFaceID) {
             self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Face ID", @"BKPasscodeView", @"Face ID 사용");
         }
-    } else {
-        self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Touch ID", @"BKPasscodeView", @"Touch ID 사용");
     }
     self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     [self addSubview:self.titleLabel];
