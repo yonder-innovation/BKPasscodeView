@@ -347,7 +347,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)showTouchIDSwitchView
+- (void)showBiometricSwitchView
 {
     BKBiometricSwitchView *view = [[BKBiometricSwitchView alloc] init];
     view.delegate = self;
@@ -491,7 +491,7 @@ typedef enum : NSUInteger {
             if ([passcode isEqualToString:self.theNewPasscode]) {
                 
                 if (self.biometricsManager && [BKBiometricsManager canUseBiometrics]) {
-                    [self showTouchIDSwitchView];
+                    [self showBiometricSwitchView];
                 } else {
                     [self.delegate passcodeViewController:self didFinishWithPasscode:passcode];
                 }
