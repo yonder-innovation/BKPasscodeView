@@ -41,12 +41,11 @@
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Touch ID for authentication?", @"BKPasscodeView", @"Touch ID를 사용하시겠습니까?");
     if (@available(iOS 11.0, *)) {
         if ([BKBiometricsManager supportedBiometricType] == LABiometryTypeFaceID) {
             self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Face ID for authentication?", @"BKPasscodeView", @"Face ID를 사용하시겠습니까?");
         }
-    } else {
-        self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Touch ID for authentication?", @"BKPasscodeView", @"Touch ID를 사용하시겠습니까?");
     }
     self.messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     [self addSubview:self.messageLabel];
