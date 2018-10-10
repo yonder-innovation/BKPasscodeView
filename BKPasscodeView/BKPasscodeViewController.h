@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BKPasscodeInputView.h"
-#import "BKTouchIDSwitchView.h"
-#import "BKTouchIDManager.h"
+#import "BKBiometricSwitchView.h"
+#import "BKBiometricsManager.h"
 
 
 typedef enum : NSUInteger {
@@ -20,7 +20,7 @@ typedef enum : NSUInteger {
 
 @protocol BKPasscodeViewControllerDelegate;
 
-@interface BKPasscodeViewController : UIViewController <BKPasscodeInputViewDelegate, BKTouchIDSwitchViewDelegate>
+@interface BKPasscodeViewController : UIViewController <BKPasscodeInputViewDelegate, BKBiometricSwitchViewDelegate>
 
 @property (nonatomic, weak) id<BKPasscodeViewControllerDelegate> delegate;
 
@@ -28,7 +28,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) BKPasscodeInputViewPasscodeStyle          passcodeStyle;
 @property (nonatomic) UIKeyboardType                            keyboardType;
 @property (nonatomic, strong, readonly) BKPasscodeInputView     *passcodeInputView;
-@property (nonatomic, strong) BKTouchIDManager                  *touchIDManager;
+@property (nonatomic, strong) BKBiometricsManager                  *biometricsManager;
 
 /**
  * Customize passcode input view

@@ -75,8 +75,8 @@ NSString *const BKPasscodeKeychainServiceName = @"BKPasscodeSampleService";
     viewController.type = BKPasscodeViewControllerCheckPasscodeType;
     viewController.delegate = self.mainViewController;
     
-    viewController.touchIDManager = [[BKTouchIDManager alloc] initWithKeychainServiceName:BKPasscodeKeychainServiceName];
-    viewController.touchIDManager.promptText = @"Scan fingerprint to unlock";
+    viewController.biometricsManager = [[BKBiometricsManager alloc] initWithKeychainServiceName:BKPasscodeKeychainServiceName];
+    viewController.biometricsManager.promptText = @"Scan fingerprint to unlock";
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
     return navController;

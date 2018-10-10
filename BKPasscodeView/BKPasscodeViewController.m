@@ -289,7 +289,7 @@ typedef enum : NSUInteger {
     
     self.promptingTouchID = YES;
     
-    [self.touchIDManager loadPasscodeWithCompletionBlock:^(NSString *passcode) {
+    [self.biometricsManager loadPasscodeWithCompletionBlock:^(NSString *passcode) {
         
         self.promptingTouchID = NO;
         
@@ -349,16 +349,16 @@ typedef enum : NSUInteger {
 
 - (void)showTouchIDSwitchView
 {
-    BKTouchIDSwitchView *view = [[BKTouchIDSwitchView alloc] init];
+    BKBiometricSwitchView *view = [[BKBiometricSwitchView alloc] init];
     view.delegate = self;
-    view.touchIDSwitch.on = self.touchIDManager.isTouchIDEnabled;
+    view.biometricSwitch.on = self.biometricsManager.isBiometricsEnabled;
     
     [self.shiftingView showView:view withDirection:BKShiftingDirectionForward];
 }
 
 - (BOOL)canAuthenticateWithTouchID
 {
-    if (NO == [BKTouchIDManager canUseTouchID]) {
+    if (NO == [BKBiometricsManager canUseBiometrics]) {
         return NO;
     }
     
@@ -366,7 +366,7 @@ typedef enum : NSUInteger {
         return NO;
     }
    
-    if (nil == self.touchIDManager || NO == self.touchIDManager.isTouchIDEnabled) {
+    if (nil == self.biometricsManager || NO == self.biometricsManager.isBiometricsEnabled) {
         return NO;
     }
     
@@ -490,7 +490,7 @@ typedef enum : NSUInteger {
         {
             if ([passcode isEqualToString:self.theNewPasscode]) {
                 
-                if (self.touchIDManager && [BKTouchIDManager canUseTouchID]) {
+                if (self.biometricsManager && [BKBiometricsManager canUseBiometrics]) {
                     [self showTouchIDSwitchView];
                 } else {
                     [self.delegate passcodeViewController:self didFinishWithPasscode:passcode];
@@ -521,13 +521,13 @@ typedef enum : NSUInteger {
 
 #pragma mark - BKTouchIDSwitchViewDelegate
 
-- (void)touchIDSwitchViewDidPressDoneButton:(BKTouchIDSwitchView *)view
+- (void)biometricSwitchViewDidPressDoneButton:(BKBiometricSwitchView *)view
 {
-    BOOL enabled = view.touchIDSwitch.isOn;
+    BOOL enabled = view.biometricSwitch.isOn;
     
     if (enabled) {
         
-        [self.touchIDManager savePasscode:self.theNewPasscode completionBlock:^(BOOL success) {
+        [self.biometricsManager savePasscode:self.theNewPasscode completionBlock:^(BOOL success) {
             if (success) {
                 [self.delegate passcodeViewController:self didFinishWithPasscode:self.theNewPasscode];
             } else {
@@ -539,7 +539,7 @@ typedef enum : NSUInteger {
         
     } else {
         
-        [self.touchIDManager deletePasscodeWithCompletionBlock:^(BOOL success) {
+        [self.biometricsManager deletePasscodeWithCompletionBlock:^(BOOL success) {
             if (success) {
                 [self.delegate passcodeViewController:self didFinishWithPasscode:self.theNewPasscode];
             } else {

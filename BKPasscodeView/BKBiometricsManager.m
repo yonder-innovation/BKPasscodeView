@@ -1,18 +1,18 @@
 //
-//  BKTouchIDManager.m
+//  BKBiometricsManager.m
 //  BKPasscodeViewDemo
 //
-//  Created by Byungkook Jang on 2014. 10. 12..
-//  Copyright (c) 2014년 Byungkook Jang. All rights reserved.
+//  Created by Kevin Mun on 10/10/2018.
+//  Copyright © 2018 Byungkook Jang. All rights reserved.
 //
 
-#import "BKTouchIDManager.h"
-#import <LocalAuthentication/LocalAuthentication.h>
+#import "BKBiometricsManager.h"
 
-static NSString *const BKTouchIDManagerPasscodeAccountName = @"passcode";
-static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
 
-@interface BKTouchIDManager () {
+static NSString *const BKBiometricsManagerPasscodeAccountName = @"passcode";
+static NSString *const BKBiometricsManagerBiometricsEnabledAccountName = @"enabled";
+
+@interface BKBiometricsManager () {
     dispatch_queue_t _queue;
 }
 
@@ -20,14 +20,14 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
 
 @end
 
-@implementation BKTouchIDManager
+@implementation BKBiometricsManager
 
 - (instancetype)initWithKeychainServiceName:(NSString *)serviceName
 {
     self = [super init];
     if (self) {
         
-        _queue = dispatch_queue_create("BKTouchIDManagerQueue", DISPATCH_QUEUE_SERIAL);
+        _queue = dispatch_queue_create("BKBiometricsManagerQueue", DISPATCH_QUEUE_SERIAL);
         
         NSParameterAssert(serviceName);
         
@@ -36,7 +36,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     return self;
 }
 
-+ (BOOL)canUseTouchID
++ (BOOL)canUseBiometrics
 {
     if (![LAContext class]) {
         return NO;
@@ -50,11 +50,25 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     return result;
 }
 
++ (LABiometryType)supportedBiometricType {
+    if (![LAContext class]) {
+        return NO;
+    }
+    
+    LAContext *context = [[LAContext alloc] init];
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        return context.biometryType;
+    } else {
+        return LABiometryNone;
+    }
+}
+
 - (void)savePasscode:(NSString *)passcode completionBlock:(void(^)(BOOL success))completionBlock
 {
     NSParameterAssert(passcode);
     
-    if (NO == [[self class] canUseTouchID]) {
+    if (NO == [[self class] canUseBiometrics]) {
         if (completionBlock) {
             completionBlock(NO);
         }
@@ -67,7 +81,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     dispatch_async(_queue, ^{
         
         BOOL success = [[self class] saveKeychainItemWithServiceName:serviceName
-                                                         accountName:BKTouchIDManagerPasscodeAccountName
+                                                         accountName:BKBiometricsManagerPasscodeAccountName
                                                                 data:passcodeData
                                                             sacFlags:kSecAccessControlUserPresence];
         
@@ -76,7 +90,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
             BOOL enabled = YES;
             
             success = [[self class] saveKeychainItemWithServiceName:serviceName
-                                                        accountName:BKTouchIDManagerTouchIDEnabledAccountName
+                                                        accountName:BKBiometricsManagerBiometricsEnabledAccountName
                                                                data:[NSData dataWithBytes:&enabled length:sizeof(BOOL)]
                                                            sacFlags:0];
         }
@@ -91,7 +105,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
 
 - (void)loadPasscodeWithCompletionBlock:(void (^)(NSString *))completionBlock
 {
-    if (NO == [[self class] canUseTouchID]) {
+    if (NO == [[self class] canUseBiometrics]) {
         if (completionBlock) {
             completionBlock(nil);
         }
@@ -100,7 +114,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     
     NSMutableDictionary *query = [NSMutableDictionary dictionaryWithDictionary:@{ (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                                                                                   (__bridge id)kSecAttrService: self.keychainServiceName,
-                                                                                  (__bridge id)kSecAttrAccount: BKTouchIDManagerPasscodeAccountName,
+                                                                                  (__bridge id)kSecAttrAccount: BKBiometricsManagerPasscodeAccountName,
                                                                                   (__bridge id)kSecReturnData: @YES }];
     
     if (self.promptText) {
@@ -133,8 +147,8 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
 {
     dispatch_async(_queue, ^{
         
-        BOOL success = ([[self class] deleteKeychainItemWithServiceName:self.keychainServiceName accountName:BKTouchIDManagerPasscodeAccountName] &&
-                        [[self class] deleteKeychainItemWithServiceName:self.keychainServiceName accountName:BKTouchIDManagerTouchIDEnabledAccountName]);
+        BOOL success = ([[self class] deleteKeychainItemWithServiceName:self.keychainServiceName accountName:BKBiometricsManagerPasscodeAccountName] &&
+                        [[self class] deleteKeychainItemWithServiceName:self.keychainServiceName accountName:BKBiometricsManagerBiometricsEnabledAccountName]);
         
         if (completionBlock) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -144,11 +158,11 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
     });
 }
 
-- (BOOL)isTouchIDEnabled
+- (BOOL)isBiometricsEnabled
 {
     NSDictionary *query = @{ (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                              (__bridge id)kSecAttrService: self.keychainServiceName,
-                             (__bridge id)kSecAttrAccount: BKTouchIDManagerTouchIDEnabledAccountName,
+                             (__bridge id)kSecAttrAccount: BKBiometricsManagerBiometricsEnabledAccountName,
                              (__bridge id)kSecReturnData: @YES };
     
     CFTypeRef dataTypeRef = NULL;
@@ -229,7 +243,7 @@ static NSString *const BKTouchIDManagerTouchIDEnabledAccountName = @"enabled";
                              (__bridge id)kSecAttrAccount: accountName };
     
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)(query));
-
+    
     return (status == errSecSuccess || status == errSecItemNotFound);
 }
 

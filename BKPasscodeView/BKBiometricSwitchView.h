@@ -1,5 +1,5 @@
 //
-//  BKTouchIDSwitchView.h
+//  BKBiometricSwitchView.h
 //  BKPasscodeViewDemo
 //
 //  Created by Byungkook Jang on 2014. 10. 11..
@@ -8,24 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol BKTouchIDSwitchViewDelegate;
+@protocol BKBiometricSwitchViewDelegate;
 
 
-@interface BKTouchIDSwitchView : UIView
+@interface BKBiometricSwitchView : UIView
 
-@property (nonatomic, weak) id<BKTouchIDSwitchViewDelegate> delegate;
+@property (nonatomic, weak) id<BKBiometricSwitchViewDelegate> delegate;
 
 @property (nonatomic, strong) UIView        *switchBackgroundView;
 @property (nonatomic, strong) UILabel       *messageLabel;
 @property (nonatomic, strong) UILabel       *titleLabel;
-@property (nonatomic, strong) UISwitch      *touchIDSwitch;
+@property (nonatomic, strong) UISwitch      *biometricSwitch;
 @property (nonatomic, strong) UIButton      *doneButton;
 
 @end
 
 
-@protocol BKTouchIDSwitchViewDelegate <NSObject>
+@protocol BKBiometricSwitchViewDelegate <NSObject>
 
-- (void)touchIDSwitchViewDidPressDoneButton:(BKTouchIDSwitchView *)view;
+- (void)biometricSwitchViewDidPressDoneButton:(BKBiometricSwitchView *)view;
 
 @end

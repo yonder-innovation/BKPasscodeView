@@ -172,9 +172,9 @@
     viewController.passcodeStyle = (self.simplePasscodeSwitch.isOn) ? BKPasscodeInputViewNumericPasscodeStyle : BKPasscodeInputViewNormalPasscodeStyle;
     
     // Setup Touch ID manager
-    BKTouchIDManager *touchIDManager = [[BKTouchIDManager alloc] initWithKeychainServiceName:BKPasscodeKeychainServiceName];
-    touchIDManager.promptText = @"BKPasscodeView Touch ID Demo";
-    viewController.touchIDManager = touchIDManager;
+    BKBiometricsManager *biometricsManager = [[BKBiometricsManager alloc] initWithKeychainServiceName:BKPasscodeKeychainServiceName];
+    biometricsManager.promptText = @"BKPasscodeView Biometrics Demo";
+    viewController.biometricsManager = biometricsManager;
     
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(passcodeViewCloseButtonPressed:)];
     
