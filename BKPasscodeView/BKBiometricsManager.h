@@ -17,7 +17,7 @@
 
 + (BOOL)canUseBiometrics;
 
-+ (LABiometryType)supportedBiometricType API_AVAILABLE(ios(11.0));
++ (LABiometryType)supportedBiometricType API_AVAILABLE(ios(11.0.1));
 
 - (instancetype)initWithKeychainServiceName:(NSString *)serviceName;
 
