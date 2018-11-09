@@ -28,6 +28,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) NSUInteger                        maximumLength;
 
 @property (nonatomic, strong) NSString                  *title;
+@property (nonatomic, strong) NSAttributedString        *attributedTitle;
 @property (nonatomic, strong) NSString                  *message;
 @property (nonatomic, strong) NSString                  *errorMessage;
 @property (nonatomic, getter = isEnabled) BOOL          enabled;
@@ -46,6 +47,11 @@ typedef enum : NSUInteger {
 + (void)configureTitleLabel:(UILabel *)aLabel;
 + (void)configureMessageLabel:(UILabel *)aLabel;
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
+
+
+// Customize vertical placement of elements by changing this value
+// Default value is 0.5f, thus the passscodeFields is centered in height
+-(CGFloat)passcodeFieldVerticalPlacement;
 
 @end
 

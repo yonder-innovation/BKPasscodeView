@@ -1,16 +1,16 @@
 PODS:
-  - AFViewShaker (0.0.2)
+  - AFViewShaker (0.0.5)
 
 DEPENDENCIES:
-  - AFViewShaker (~> 0.0)
+  - AFViewShaker
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFViewShaker
 
 SPEC CHECKSUMS:
-  AFViewShaker: 7e4bc215ca3e92347b78da436fca74e1730b52e8
+  AFViewShaker: fc201fa4c0030e3f4875b9f84ac0763828518b00
 
-PODFILE CHECKSUM: c5a6ac0e95b8884205e41037da4dc4c3f39d61ee
+PODFILE CHECKSUM: e3253af824f263efdf4cf1fac80c636d3fd37322
 
 COCOAPODS: 1.5.3
