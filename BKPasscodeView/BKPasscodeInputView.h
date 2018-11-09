@@ -48,11 +48,6 @@ typedef enum : NSUInteger {
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
 
 
-// Labels exposed to facilitate customization
-@property (nonatomic, strong, readonly) UILabel *titleLabel;
-@property (nonatomic, strong, readonly) UILabel *messageLabel;
-@property (nonatomic, strong, readonly) UILabel *errorMessageLabel;
-
 // Customize vertical placement of elements by changing this value
 // Default value is 0.5f, thus the passscodeFields is centered in height
 -(CGFloat)passcodeFieldVerticalPlacement;
