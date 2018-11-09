@@ -352,7 +352,7 @@
         self.passcodeField.frame = CGRectMake(0, 0, self.frame.size.width - kTextLeftRightSpace * 2.0f, CGRectGetHeight(self.passcodeField.frame) + 10.0f);
     }
 
-    self.passcodeField.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5f, CGRectGetHeight(self.frame) * 0.5f);
+    self.passcodeField.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5f, CGRectGetHeight(self.frame) * self.passcodeFieldVerticalPlacement);
     
     CGFloat maxTextWidth = self.frame.size.width - (kTextLeftRightSpace * 2.0f);
     CGFloat labelPasscodeSpace = [self labelPasscodeSpace];
@@ -391,6 +391,10 @@
         
         _errorMessageLabel.frame = rect;
     }
+}
+
+-(CGFloat)passcodeFieldVerticalPlacement {
+    return 0.5f;
 }
 
 #pragma mark - UIResponder
