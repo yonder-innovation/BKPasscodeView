@@ -218,6 +218,17 @@
     return self.titleLabel.text;
 }
 
+- (void)setAttributedTitle:(NSAttributedString *)attrTitle
+{
+    self.titleLabel.attributedText = attrTitle;
+    [self setNeedsLayout];
+}
+
+- (NSAttributedString *)attributedTitle
+{
+    return self.titleLabel.attributedText;
+}
+
 - (void)setMessage:(NSString *)message
 {
     self.messageLabel.text = message;

@@ -28,6 +28,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) NSUInteger                        maximumLength;
 
 @property (nonatomic, strong) NSString                  *title;
+@property (nonatomic, strong) NSAttributedString        *attributedTitle;
 @property (nonatomic, strong) NSString                  *message;
 @property (nonatomic, strong) NSString                  *errorMessage;
 @property (nonatomic, getter = isEnabled) BOOL          enabled;
