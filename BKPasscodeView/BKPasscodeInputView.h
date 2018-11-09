@@ -47,6 +47,11 @@ typedef enum : NSUInteger {
 + (void)configureMessageLabel:(UILabel *)aLabel;
 + (void)configureErrorMessageLabel:(UILabel *)aLabel;
 
+
+// Labels exposed to facilitate customization
+@property (nonatomic, strong, readonly) UILabel *titleLabel;
+@property (nonatomic, strong, readonly) UILabel *messageLabel;
+@property (nonatomic, strong, readonly) UILabel *errorMessageLabel;
 @end
 
 
