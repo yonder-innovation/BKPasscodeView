@@ -41,20 +41,20 @@
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
-    self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Touch ID for authentication?", @"BKPasscodeView", @"Touch ID를 사용하시겠습니까?");
+    self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Touch ID for authentication?", @"BKPasscodeView", nil);
     if (@available(iOS 11.0.1, *)) {
         if ([BKBiometricsManager supportedBiometricType] == LABiometryTypeFaceID) {
-            self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Face ID for authentication?", @"BKPasscodeView", @"Face ID를 사용하시겠습니까?");
+            self.messageLabel.text = NSLocalizedStringFromTable(@"Do you want to use Face ID for authentication?", @"BKPasscodeView", nil);
         }
     }
     self.messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     [self addSubview:self.messageLabel];
     
     self.titleLabel = [[UILabel alloc] init];
-    self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Touch ID", @"BKPasscodeView", @"Touch ID 사용");
+    self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Touch ID", @"BKPasscodeView", nil);
     if (@available(iOS 11.0.1, *)) {
         if ([BKBiometricsManager supportedBiometricType] == LABiometryTypeFaceID) {
-            self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Face ID", @"BKPasscodeView", @"Face ID 사용");
+            self.titleLabel.text = NSLocalizedStringFromTable(@"Enable Face ID", @"BKPasscodeView", nil);
         }
     }
     self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -65,7 +65,7 @@
     
     self.doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.doneButton.titleLabel setFont:[UIFont systemFontOfSize:20.f]];
-    [self.doneButton setTitle:NSLocalizedStringFromTable(@"Done", @"BKPasscodeView", @"확인") forState:UIControlStateNormal];
+    [self.doneButton setTitle:NSLocalizedStringFromTable(@"Done", @"BKPasscodeView", nil) forState:UIControlStateNormal];
     [self.doneButton addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.doneButton];
 }

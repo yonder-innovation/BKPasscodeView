@@ -285,7 +285,7 @@
 				ORGANIZATIONNAME = "Byungkook Jang";
 				TargetAttributes = {
 					DFB107B01903ECF70038FB05 = {
-						DevelopmentTeam = VK4AQ7RN7A;
+						DevelopmentTeam = AG8L3BUBFE;
 					};
 					DFB107CB1903ECF70038FB05 = {
 						TestTargetID = DFB107B01903ECF70038FB05;
@@ -585,6 +585,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AG8L3BUBFE;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BKPasscodeViewDemo/BKPasscodeViewDemo-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -609,6 +610,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AG8L3BUBFE;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BKPasscodeViewDemo/BKPasscodeViewDemo-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

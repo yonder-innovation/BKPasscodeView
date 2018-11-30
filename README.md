@@ -1,5 +1,9 @@
 BKPasscodeView
 ==============
+2018-11-30 Added FaceID Authentification + fix demo project
+==============
+
+
 - iOS7 style passcode view. Supports create, change and authenticate password.
 - Customizable lock policy for too many failure attempts.
 - Customizable passcode digit appearance.
