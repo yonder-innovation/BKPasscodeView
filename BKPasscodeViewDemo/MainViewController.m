@@ -232,13 +232,13 @@
 {
     self.failedAttempts++;
     
-    if (self.failedAttempts > 5) {
+    if (self.failedAttempts > 2) {
         
-        NSTimeInterval timeInterval = 60;
+        NSTimeInterval timeInterval = 120;
         
-        if (self.failedAttempts > 6) {
+        if (self.failedAttempts > 3) {
             
-            NSUInteger multiplier = self.failedAttempts - 6;
+            NSUInteger multiplier = self.failedAttempts - 3;
             
             timeInterval = (5 * 60) * multiplier;
             
