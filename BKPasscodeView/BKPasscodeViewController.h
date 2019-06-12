@@ -28,8 +28,9 @@ typedef enum : NSUInteger {
 @property (nonatomic) BKPasscodeInputViewPasscodeStyle          passcodeStyle;
 @property (nonatomic) UIKeyboardType                            keyboardType;
 @property (nonatomic, strong, readonly) BKPasscodeInputView     *passcodeInputView;
-@property (nonatomic, strong) BKBiometricsManager                  *biometricsManager;
-
+@property (nonatomic, strong) BKBiometricsManager               *biometricsManager;
+@property (nonatomic, strong, readonly) UIButton                *topLeftButton;
+@property (nonatomic, assign) BOOL                              isTopLeftButtonVisible;
 /**
  * Customize passcode input view
  * You may override to customize passcode input view appearance.
@@ -77,7 +78,7 @@ typedef enum : NSUInteger {
 - (void)passcodeViewController:(BKPasscodeViewController *)aViewController authenticatePasscode:(NSString *)aPasscode resultHandler:(void(^)(BOOL succeed))aResultHandler;
 
 /**
- * Tells the delegate that user entered incorrect passcode. 
+ * Tells the delegate that user entered incorrect passcode.
  * You should manage failed attempts yourself and it should be returned by -[BKPasscodeViewControllerDelegate passcodeViewControllerNumberOfFailedAttempts:] method.
  */
 - (void)passcodeViewControllerDidFailAttempt:(BKPasscodeViewController *)aViewController;
@@ -92,5 +93,10 @@ typedef enum : NSUInteger {
  * If you return nil, passcode view will unlock otherwise it will lock until the date.
  */
 - (NSDate *)passcodeViewControllerLockUntilDate:(BKPasscodeViewController *)aViewController;
+
+/**
+ Tell the delegate the top left button has been pressed
+ */
+- (void)passcodeViewControllerDidPressTopLeftButton:(BKPasscodeViewController *)aViewController;
 
 @end

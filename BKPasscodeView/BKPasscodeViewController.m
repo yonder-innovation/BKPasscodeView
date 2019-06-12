@@ -52,6 +52,9 @@ typedef enum : NSUInteger {
         self.shiftingView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.shiftingView.currentView = [self instantiatePasscodeInputView];
         
+        // create top left button
+        [self instantiateTopLeftButton];
+        
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillHideNotification object:nil];
@@ -91,6 +94,12 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)setIsTopLeftButtonVisible:(BOOL)isTopLeftButtonVisible
+{
+    _isTopLeftButtonVisible = isTopLeftButtonVisible;
+    self.topLeftButton.hidden = !isTopLeftButtonVisible;
+}
+
 - (BKPasscodeInputView *)passcodeInputView
 {
     if (NO == [self.shiftingView.currentView isKindOfClass:[BKPasscodeInputView class]]) {
@@ -109,6 +118,24 @@ typedef enum : NSUInteger {
     return view;
 }
 
+- (void)instantiateTopLeftButton
+{
+    _topLeftButton = [[UIButton alloc] init];
+    
+    [_topLeftButton addTarget:self action:@selector(topLeftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_topLeftButton];
+    
+    _topLeftButton.translatesAutoresizingMaskIntoConstraints = false;
+    
+    [_topLeftButton.leadingAnchor
+     constraintEqualToAnchor:self.view.leadingAnchor constant: 15].active = true;
+    [_topLeftButton.topAnchor
+     constraintEqualToAnchor:self.view.topAnchor constant: 30].active = true;
+    
+    _topLeftButton.hidden = false;
+}
+
 - (void)customizePasscodeInputView:(BKPasscodeInputView *)aPasscodeInputView
 {
 }
@@ -119,7 +146,7 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:0.94 green:0.94 blue:0.96 alpha:1]];
-   
+    
     [self updatePasscodeInputViewTitle:self.passcodeInputView];
     
     [self customizePasscodeInputView:self.passcodeInputView];
@@ -160,7 +187,7 @@ typedef enum : NSUInteger {
     
     frame.origin.y += topBarOffset;
     frame.size.height -= (topBarOffset + self.keyboardHeight);
-
+    
     self.shiftingView.frame = frame;
 }
 
@@ -252,7 +279,7 @@ typedef enum : NSUInteger {
     BKPasscodeInputView *inputView = self.passcodeInputView;
     
     NSDate *lockUntil = [self.delegate passcodeViewControllerLockUntilDate:self];
-
+    
     if (lockUntil == nil || [lockUntil timeIntervalSinceNow] < 0) {
         
         // invalidate timer
@@ -299,7 +326,7 @@ typedef enum : NSUInteger {
             
             [self passcodeInputViewDidFinish:self.passcodeInputView];
         }
-            
+        
         if (aCompletionBlock) {
             aCompletionBlock(YES);
         }
@@ -308,7 +335,14 @@ typedef enum : NSUInteger {
 
 #pragma mark - Private methods
 
-- (void)updatePasscodeInputViewTitle:(BKPasscodeInputView *)passcodeInputView
+-(void)topLeftButtonPressed
+{
+    if ([self.delegate respondsToSelector:@selector(passcodeViewControllerDidPressTopLeftButton:)]) {
+        [self.delegate passcodeViewControllerDidPressTopLeftButton:self];
+    }
+}
+
+- (void) updatePasscodeInputViewTitle:(BKPasscodeInputView *)passcodeInputView
 {
     switch (self.currentState) {
         case BKPasscodeViewControllerStateCheckPassword:
@@ -365,7 +399,7 @@ typedef enum : NSUInteger {
     if (self.type != BKPasscodeViewControllerCheckPasscodeType) {
         return NO;
     }
-   
+    
     if (nil == self.biometricsManager || NO == self.biometricsManager.isBiometricsEnabled) {
         return NO;
     }
@@ -403,7 +437,7 @@ typedef enum : NSUInteger {
             
             [self.delegate passcodeViewController:self authenticatePasscode:passcode resultHandler:^(BOOL succeed) {
                 
-                self.isAuthorizing = NO;                
+                self.isAuthorizing = NO;
                 NSAssert([NSThread isMainThread], @"you must invoke result handler in main thread.");
                 
                 if (succeed) {
