@@ -53,7 +53,8 @@ typedef enum : NSUInteger {
         self.shiftingView.currentView = [self instantiatePasscodeInputView];
         
         // create top left button
-        [self instantiateTopLeftButton];
+        _topLeftButton = [[UIButton alloc] init];
+        [_topLeftButton addTarget:self action:@selector(topLeftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
         // keyboard notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveKeyboardWillShowHideNotification:) name:UIKeyboardWillShowNotification object:nil];
@@ -118,12 +119,8 @@ typedef enum : NSUInteger {
     return view;
 }
 
-- (void)instantiateTopLeftButton
+- (void)configureTopLeftButton
 {
-    _topLeftButton = [[UIButton alloc] init];
-    
-    [_topLeftButton addTarget:self action:@selector(topLeftButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.view addSubview:_topLeftButton];
     
     _topLeftButton.translatesAutoresizingMaskIntoConstraints = false;
@@ -131,7 +128,7 @@ typedef enum : NSUInteger {
     [_topLeftButton.leadingAnchor
      constraintEqualToAnchor:self.view.leadingAnchor constant: 15].active = true;
     [_topLeftButton.topAnchor
-     constraintEqualToAnchor:self.view.topAnchor constant: 30].active = true;
+     constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant: 5].active = true;
     
     _topLeftButton.hidden = false;
 }
@@ -152,6 +149,8 @@ typedef enum : NSUInteger {
     [self customizePasscodeInputView:self.passcodeInputView];
     
     [self.view addSubview:self.shiftingView];
+    
+    [self configureTopLeftButton];
     
     [self lockIfNeeded];
 }
