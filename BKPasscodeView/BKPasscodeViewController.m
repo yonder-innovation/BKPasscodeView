@@ -133,7 +133,7 @@ typedef enum : NSUInteger {
          constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant: 5].active = true;
     } else {
         [_topLeftButton.topAnchor
-         constraintEqualToAnchor:self.view.topAnchor constant: 5].active = true;
+         constraintEqualToAnchor:self.view.topAnchor constant: 15].active = true;
     }
     
     _topLeftButton.hidden = false;
