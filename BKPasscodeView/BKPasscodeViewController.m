@@ -362,7 +362,7 @@ typedef enum : NSUInteger {
             if (self.type == BKPasscodeViewControllerChangePasscodeType) {
                 passcodeInputView.title = NSLocalizedStringFromTable(@"Enter your new passcode", @"BKPasscodeView", nil);
             } else {
-                passcodeInputView.title = NSLocalizedStringFromTable(@"Enter a passcode", @"BKPasscodeView", nil);
+                passcodeInputView.title = NSLocalizedStringFromTable(@"Set a new passcode", @"BKPasscodeView", nil);
             }
             break;
             
