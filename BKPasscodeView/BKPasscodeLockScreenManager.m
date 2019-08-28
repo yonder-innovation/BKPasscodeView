@@ -85,6 +85,7 @@ static BKPasscodeLockScreenManager *_sharedManager;
         blindView.hidden = YES;
     }
     
+    lockScreenViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [lockScreenWindow.rootViewController presentViewController:lockScreenViewController animated:animated completion:^{
         blindView.hidden = NO;
     }];
