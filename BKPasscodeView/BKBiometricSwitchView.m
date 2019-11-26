@@ -128,9 +128,26 @@
 
 - (void)doneButtonPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(biometricSwitchViewDidPressDoneButton:)]) {
-        [self.delegate biometricSwitchViewDidPressDoneButton:self];
-    }
+    //We need a spinner because sometimes the IOS does not return the biometrics info right away
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+    [self addSubview:spinner];
+    spinner.translatesAutoresizingMaskIntoConstraints = false;
+    [spinner.topAnchor constraintEqualToAnchor:self.doneButton.bottomAnchor constant:20].active = true;
+    [spinner.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
+    
+    //Make sure we are using the main thread as we update the UI
+    //We don't need to dismiss it as the whole view controller will be dismissed when ready
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [spinner startAnimating];
+        self.doneButton.enabled = false;
+        self.biometricSwitch.enabled = false;
+        
+        if ([self.delegate respondsToSelector:@selector(biometricSwitchViewDidPressDoneButton:)]) {
+            [self.delegate biometricSwitchViewDidPressDoneButton:self];
+        }
+        
+    });
 }
 
 @end
